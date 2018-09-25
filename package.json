@@ -1,0 +1,20 @@
+{
+  "name": "Insta-app",
+  "version": "0.0.1",
+  "description": "Insta-app nodejs API",
+  "dependencies": {
+    "bcrypt": "3.0.0",
+    "bluebird": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "crypto": "*",
+    "express": "*",
+    "jwt-simple": "*",
+    "moment": "^2.18.1",
+    "mongoose": "*",
+    "morgan": "*",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "author": "Pavel S"
+}
