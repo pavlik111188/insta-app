@@ -11,7 +11,6 @@ const path        = require('path');
 const config      = require('./config/database'); // get db config file
 const User        = require('./models/user'); // get the mongoose model
 
-const port        = process.env.PORT || 8085;
 const jwt         = require('jwt-simple');
 
 const routes      = require('./routes/routes');
@@ -45,7 +44,8 @@ require('./config/passport')(passport);
 // connect the api routes under /api/*
 app.use('/api/', routes);
 
-//Start the server
-app.listen(port, function () {
-    console.log('App listening on port: ', port)
+app.set('port', (8085));
+
+app.listen(app.get('port'), () => {
+    console.log('Angular Full Stack listening on port ' + app.get('port'));
 });

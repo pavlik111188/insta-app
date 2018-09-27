@@ -1,14 +1,10 @@
-<ul class="nav justify-content-center grey lighten-4 py-4">
-  <li class="nav-item">
-    <a class="nav-link active" href="#!">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#!">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#!">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#!">Disabled</a>
-  </li>
+<ul class="nav justify-content-end grey lighten-4 py-4">
+  <ng-container *ngIf="currentUser">
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#!">{{currentUser.first_name}}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">Logout</a>
+    </li>
+  </ng-container>
 </ul>

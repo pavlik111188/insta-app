@@ -1,3 +1,50 @@
 <p>
-  home works!
+  Your balance: <b>{{ user.money }}$</b>
 </p>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">You can share money</th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <div class="md-form">
+        <p>Paste purse address</p>
+        <input type="text" class="form-control" [(ngModel)]="purse_address" id="purse_address" mdbInputDirective>
+      </div>
+    </td>
+    <td>
+      <div class="md-form">
+        <p>Type balance for transfer</p>
+        <input type="number" class="form-control" [(ngModel)]="balance" id="numberInputEx" min="0" mdbInputDirective>
+      </div>
+    </td>
+    <td>
+      <div class="md-form form-group">
+        <button type="submit" color="info"
+                class="btn blue-gradient btn-block btn-rounded waves-light"(click)="shareBalance()" mdbWavesEffect>Send</button>
+      </div>
+    </td>
+    <td></td>
+    <td></td>
+  </tr>
+  </tbody>
+</table>
+<div *ngIf="history">
+  <ul>
+    <li *ngFor="let item of history">
+      <div *ngIf="item.getter == user.email; else elseBlock">
+        <span>+ {{ item.balance }}</span>  <span>Sender: {{ item.sender }}</span> ======> <span>Getter: Me</span> ({{ item.created | date:'medium' }})
+      </div>
+      <ng-template #elseBlock>
+        <span>- {{ item.balance }}$</span>  <span>Sender: Me</span> ======> <span>Getter: {{ item.getter }}</span> ({{ item.created | date:'medium' }})
+      </ng-template>
+    </li>
+  </ul>
+</div>

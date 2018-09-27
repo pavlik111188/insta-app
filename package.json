@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Insta-app nodejs API",
   "dependencies": {
+    "async": "^2.6.1",
     "bcrypt": "3.0.0",
     "bluebird": "*",
     "body-parser": "*",
@@ -13,8 +14,11 @@
     "moment": "^2.18.1",
     "mongoose": "*",
     "morgan": "*",
+    "nodemailer": "^4.6.8",
     "passport": "*",
-    "passport-jwt": "*"
+    "passport-jwt": "*",
+    "socket.io-client": "^2.0.4",
+    "socketio": "^1.0.0"
   },
   "author": "Pavel S"
 }

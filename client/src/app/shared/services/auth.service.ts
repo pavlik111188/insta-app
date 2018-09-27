@@ -11,6 +11,8 @@ import {User} from '../models/user.model';
 @Injectable()
 export class AuthenticationService {
 
+    public domain: string = 'http://localhost:8085';
+
     TOKEN_VARIABLE: string = 'token';
 
     currentUser: User = new User();
@@ -31,30 +33,25 @@ export class AuthenticationService {
         return localStorage.getItem(this.TOKEN_VARIABLE);
     }
 
-    loadToken(): void {
+    loadToken(): User {
         if (this.getTokenFromLocalStorage()) {
-            // this.store.dispatch(new LoadTokenAction(this.getTokenFromLocalStorage()));
+          return this.currentUser;
         }
     }
 
     login(credentials): Observable<any> {
-        return this.http.post<any>('/api/login', credentials).do(
+        return this.http.post<any>(this.domain + '/api/login', credentials).do(
             res => {
-              console.log(res);
                 localStorage.setItem('token', res.token);
                 const decodedUser = this.decodeUserFromToken(res.token);
                 this.setCurrentUser(decodedUser);
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['/']);
             }
         );
     }
 
     signup(user: User): Observable<User> {
-        return this.http.post<User>('/api/user', user).do(
-            res => {
-                this.router.navigate(['/login']);
-            }
-        );
+        return this.http.post<User>(this.domain + '/api/signup', user);
     }
 
     logout() {
@@ -72,19 +69,25 @@ export class AuthenticationService {
         this.currentUser.first_name = decodedUser.first_name;
         this.currentUser.email = decodedUser.email;
         this.currentUser.role = decodedUser.role;
-        this.currentUser.photo = decodedUser.photo;
-
         delete decodedUser.role;
     }
 
-    getCurrentUser(user: User): Observable<User> {
-        return this.http.get<User>(`/api/user/${user._id}`);
+    checkToken(token): Observable<any> {
+        return this.http.get<any>(this.domain + '/api/check_token/' + token);
     }
 
     forgotPass(email): Observable<any> {
-      return this.http.post<User>('/api/auth/forgot_pass', email).do(
+      return this.http.post<any>(this.domain + '/api/forgot_pass', email).do(
         res => {
-          console.log(res);
+          // console.log(res);
+        }
+      );
+    }
+
+    resetPass(user): Observable<User> {
+      return this.http.post<User>(this.domain + '/api/reset_pass', user).do(
+        res => {
+          // console.log(res);
         }
       );
     }

@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import {FlashMessagesModule} from 'angular2-flash-messages';
 
 import {AuthenticationService} from './shared/services/auth.service';
 
@@ -26,6 +27,7 @@ import { UserService } from "./shared/services/user.service";
     CoreModule,
     AppRoutingModule,
     HttpClientModule,
+    FlashMessagesModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

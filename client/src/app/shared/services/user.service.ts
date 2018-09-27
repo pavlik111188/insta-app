@@ -4,50 +4,27 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {User} from '../models/user.model';
 
-const token = localStorage.getItem('token');
-const httpOptions = {
-    headers: new HttpHeaders({ 'token': token})
-};
-
 @Injectable()
 export class UserService {
+
+    public domain: string = 'http://localhost:8085';
+    public token = localStorage.getItem('token');
+    public httpOptions = {
+              headers: new HttpHeaders({ 'Authorization': this.token})
+            };
 
     constructor(private http: HttpClient) {
     }
 
-    /**
-     * Load all the users
-     */
-    public loadUsers(): Observable<User[]> {
-        return this.http.get<User[]>(`/api/users`);
+    public loadUserHistory(): Observable<History[]> {
+        return this.http.get<History[]>(`${this.domain}/api/history`, this.httpOptions);
     }
 
-    /**
-     * Find an object by its identifier
-     */
-    public findById(id: any): Observable<User> {
-        return this.http.get<User>(`/api/user/${id}`);
+    public getCurrentUser(): Observable<User> {
+      return this.http.get<User>(this.domain + '/api/user/', this.httpOptions);
     }
 
-    /**
-     * Insert the user
-     */
-    public insertUser(user: User): Observable<Object> {
-        return this.http.post<User>('/api/user', user, httpOptions);
-    }
-
-    /**
-     * Update specific object into DB
-     */
-    public updateUser(user: User): Observable<User> {
-        return this.http.put<User>(`/api/user/${user._id}`, user, httpOptions);
-    }
-
-    /**
-     * Delete the user
-     */
-    public deleteUser(id): Observable<any> {
-        // const params = new
-        return this.http.delete(`/api/user/${id}`, httpOptions);
+    public sendBalance(params): Observable<any> {
+      return this.http.post<any>(this.domain + '/api/balance/', params, this.httpOptions);
     }
 }

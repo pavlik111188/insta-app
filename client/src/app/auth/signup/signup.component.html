@@ -1,3 +1,79 @@
-<p>
-  signup works!
-</p>
+<flash-messages></flash-messages>
+<div class="row">
+  <div class="col-md-6 mx-auto my-5">
+
+    <section class="form-elegant">
+
+      <!--Form without header-->
+      <div class="card">
+
+        <div class="card-body mx-4">
+
+          <!--Header-->
+          <div class="text-center">
+            <h3 class="dark-grey-text mb-5">
+              <strong>Signup as new user</strong>
+            </h3>
+          </div>
+
+          <form [formGroup]="signupForm" (ngSubmit)="signupWithCredentials(signupForm)">
+            <div class="md-form">
+              <input type="text" [mdbValidate]="false" id="first_name" class="form-control" formControlName="first_name" mdbInputDirective>
+              <label for="first_name">Name</label>
+              <div *ngIf="formErrors.first_name.length > 0">
+                <div class="text-danger" *ngFor="let error of formErrors.first_name">
+                  <small>{{error}}</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="md-form pb-3">
+              <input type="text" [mdbValidate]="false" id="email" class="form-control" formControlName="email" mdbInputDirective>
+              <label for="email">Email</label>
+              <div *ngIf="formErrors.email.length > 0">
+                <div class="text-danger" *ngFor="let error of formErrors.email">
+                  <small>{{error}}</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="md-form pb-3">
+              <input type="password" [mdbValidate]="false" id="password" formControlName="password" class="form-control" mdbInputDirective>
+              <label for="password">Password</label>
+              <div *ngIf="formErrors.password.length > 0">
+                <div class="text-danger" *ngFor="let error of formErrors.password">
+                  <small>{{error}}</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="md-form pb-3">
+              <input type="password" [mdbValidate]="false" id="passwordConfirm" formControlName="passwordConfirm" class="form-control" mdbInputDirective>
+              <label for="passwordConfirm">Confirm your password</label>
+              <div *ngIf="formErrors.passwordConfirm.length > 0">
+                <div  class="text-danger" *ngFor="let error of formErrors.passwordConfirm">
+                  <small>{{error}}</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mb-3">
+              <button type="submit" [disabled]="!signupForm.valid"
+                      class="btn blue-gradient btn-block btn-rounded z-depth-1a waves-light" mdbWavesEffect>Sign up</button>
+            </div>
+          </form>
+          <!--Body-->
+
+        </div>
+        <div class="modal-footer mx-5 pt-3 mb-1">
+          <p class="font-small grey-text d-flex justify-content-end">
+            <a routerLink="/login" class="blue-text ml-1">Login</a>
+          </p>
+        </div>
+
+      </div>
+      <!--/Form without header-->
+    </section>
+
+  </div>
+</div>

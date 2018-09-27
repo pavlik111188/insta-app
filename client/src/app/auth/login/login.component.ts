@@ -5,6 +5,8 @@ import 'rxjs/add/operator/takeWhile';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../../shared/models/user.model';
 import {AuthenticationService} from '../../shared/services/auth.service';
+import {Router} from "@angular/router";
+import {AuthGuardService} from "../auth-guard.service";
 
 @Component({
   selector: 'app-login',
@@ -27,6 +29,8 @@ export class LoginComponent implements OnInit {
   public resetPasswordForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private authGuardService: AuthGuardService,
               private authenticationService: AuthenticationService) {
 
     // Init reset password form
@@ -40,11 +44,15 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // Init login form
     this.buildLoginForm();
+    if (this.authGuardService.isLogged()) {
+      this.router.navigate(['/']);
+    }
   }
 
   buildLoginForm(): void {
     this.loginForm = this.formBuilder.group({
       'email' : ['', [
+        Validators.required,
         Validators.email
       ]
       ],
@@ -86,11 +94,11 @@ export class LoginComponent implements OnInit {
 
   validationMessages = {
     'email': {
-      'email': 'TEXTS.PROVIDE_VALID_EMAIL'
+      'email': 'Please, provide a valid email'
     },
     'password': {
-      'required': 'TEXTS.PROVIDE_VALID_PASSWORD',
-      'minlength': 'TEXTS.REQ_MINLENGTH_PASSWORD'
+      'required': 'Please, provide a valid password',
+      'minlength': 'Min length is 6 symbols'
     }
   };
 
@@ -98,7 +106,6 @@ export class LoginComponent implements OnInit {
    * Login with credentials
    */
   loginWithCredentials() {
-
     // get email and password values
     const email: string = this.loginForm.get('email').value;
     const password: string = this.loginForm.get('password').value;
@@ -113,27 +120,8 @@ export class LoginComponent implements OnInit {
       password: password
     };
 
-    // dispatch AuthenticationAction and pass in payload
-    // this.store.dispatch(new LoginAction(credentials));
-  }
+    this.authenticationService.login(credentials).subscribe(res => {
 
-  /**
-   * Reset user password
-   */
-  resetPassword() {
-
-  }
-
-  forgotPass() {
-    const email = this.resetPasswordForm.get('email').value;
-    console.log(this.resetPasswordForm.value);
-    this.authenticationService.forgotPass(this.resetPasswordForm.value).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    });
   }
 }
