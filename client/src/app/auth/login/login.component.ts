@@ -7,6 +7,7 @@ import {User} from '../../shared/models/user.model';
 import {AuthenticationService} from '../../shared/services/auth.service';
 import {Router} from "@angular/router";
 import {AuthGuardService} from "../auth-guard.service";
+import {FlashMessagesService} from "angular2-flash-messages";
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
+              private flashMessage: FlashMessagesService,
               private authGuardService: AuthGuardService,
               private authenticationService: AuthenticationService) {
 
@@ -121,7 +123,9 @@ export class LoginComponent implements OnInit {
     };
 
     this.authenticationService.login(credentials).subscribe(res => {
-
+        if (!res['success']) {
+          this.flashMessage.show(res['msg'], { cssClass: 'alert-danger', timeout: 3000 });
+        }
     });
   }
 }

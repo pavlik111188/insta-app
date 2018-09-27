@@ -42,10 +42,13 @@ export class AuthenticationService {
     login(credentials): Observable<any> {
         return this.http.post<any>(this.domain + '/api/login', credentials).do(
             res => {
-                localStorage.setItem('token', res.token);
-                const decodedUser = this.decodeUserFromToken(res.token);
-                this.setCurrentUser(decodedUser);
-                this.router.navigate(['/']);
+
+                if (res['success']) {
+                  localStorage.setItem('token', res.token);
+                  const decodedUser = this.decodeUserFromToken(res.token);
+                  this.setCurrentUser(decodedUser);
+                  this.router.navigate(['/']);
+                }
             }
         );
     }
